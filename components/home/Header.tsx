@@ -6,6 +6,7 @@ import ThemeSwitch from "../ThemeSwitch";
 import { Button } from "../ui/button";
 import PopoverProfile from "./PopoverProfile";
 import LogoComponent from "../LogoComponent";
+import SheetNavSmallScreen from "./SheetNavSmallScreen";
 
 const Header = () => {
   return (
@@ -37,10 +38,7 @@ const Header = () => {
 
         <div className="md:hidden">
           {/* Mobile menu button */}
-          <AlignJustify
-            role="button"
-            className="text-yellow-500 hover:text-yellow-700"
-          />
+          <SheetNavSmallScreen />
         </div>
         {/* Links big screen */}
         <div className="hidden md:flex gap-4 items-center">
