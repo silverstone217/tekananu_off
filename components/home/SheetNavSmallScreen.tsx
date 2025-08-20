@@ -113,14 +113,16 @@ const SheetNavSmallScreen = () => {
           )}
 
           {/* Logout */}
-          <Button
-            variant="destructive"
-            className="w-full flex items-center gap-2"
-            onClick={handleLogout}
-          >
-            <LogOut size={16} />
-            Déconnexion
-          </Button>
+          {user && (
+            <Button
+              variant="destructive"
+              className="w-full flex items-center gap-2"
+              onClick={handleLogout}
+            >
+              <LogOut size={16} />
+              Déconnexion
+            </Button>
+          )}
 
           {/* theme */}
           <ThemeSwitch />
