@@ -1,34 +1,42 @@
 import Header from "@/components/home/Header";
-import TestComp from "@/components/testComp";
-// import { Button } from "@/components/ui/button";
-import { prisma } from "@/lib/prisma";
+import HeroSection from "@/components/home/HeroSection";
+// import TestComp from "@/components/testComp";
+// // import { Button } from "@/components/ui/button";
+// import { prisma } from "@/lib/prisma";
 // import Link from "next/link";
 
-const getUsersLength = async () => {
-  const users = await prisma.user.findMany();
-  return users.length;
-};
+// const getUsersLength = async () => {
+//   const users = await prisma.user.findMany();
+//   return users.length;
+// };
 
 export default async function Home() {
-  const usersLength = await getUsersLength();
+  // const usersLength = await getUsersLength();
 
   return (
-    <div className="pt-16 lg:pt-18">
+    <div className="pt-14 lg:pt-16">
       <Header />
-      <div className="max-w-7xl mx-auto p-4 space-y-2 w-full ">
-        <h1>Bienvenue à Teka Nanu</h1>
-        <p>
-          Votre solution tout-en-un pour acheter et vendre des produits de
-          seconde main.
-        </p>
-        <p>
-          Nous avons actuellement {usersLength ? usersLength : "rien trouvé"}{" "}
-          utilisateurs inscrits.
-        </p>
-        {/* <Link href="/path/to/your/page">
-          <Button>Cliquez ici pour en savoir plus</Button>
-        </Link> */}
-        <TestComp />
+      <div className=" w-full ">
+        {/* HERO SECTION */}
+        <HeroSection />
+
+        {/* NEW ARRIVALS */}
+        <section className="py-12 px-4 sm:px-6 xl:px-8">
+          <h2 className="text-2xl font-bold mb-6">Nouveaux Arrivages</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Product cards go here */}
+          </div>
+        </section>
+
+        {/* MOST POPULAR PRODUCTS */}
+        <section className="py-12 px-4 sm:px-6 xl:px-8">
+          <h2 className="text-2xl font-bold mb-6">
+            Les produits les plus populaires
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Product cards go here */}
+          </div>
+        </section>
       </div>
     </div>
   );
