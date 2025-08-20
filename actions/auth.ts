@@ -1,9 +1,9 @@
 "use server";
 
 import { auth } from "@/auth";
-import { User } from "@/lib/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { signupSchema } from "@/schema/auth";
+import { User } from "@prisma/client";
 import { hash } from "bcryptjs";
 import z from "zod";
 
