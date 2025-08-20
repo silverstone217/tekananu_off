@@ -32,7 +32,7 @@ export const HeroSectiondata = [
     description:
       "Une télévision Hisense de 55 pouces, idéale pour les films et les jeux.",
     image:
-      "https://images.unsplash.com/photo-1611597832906-c1c8033478ba?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1701421048182-2a628d927578?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     state: "bon",
     price: 150000,
     devise: "FCD",
