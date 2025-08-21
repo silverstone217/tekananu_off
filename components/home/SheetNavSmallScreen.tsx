@@ -46,7 +46,7 @@ const SheetNavSmallScreen = () => {
         </div>
       </SheetTrigger>
       <SheetContent
-        className="h-screen overflow-x-hidden overflow-y-auto py-2
+        className="h-full overflow-x-hidden overflow-y-auto py-2
       w-[80%] border-background shadow-2xl
       "
       >

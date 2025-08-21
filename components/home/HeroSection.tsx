@@ -22,7 +22,7 @@ const HeroSection = () => {
     <section className="relative w-full overflow-hidden">
       {/* Background image */}
       <div
-        className="relative h-[70vh] bg-secondary flex items-center 
+        className="relative h-[60vh] bg-secondary flex items-center 
       justify-center"
       >
         <Image
