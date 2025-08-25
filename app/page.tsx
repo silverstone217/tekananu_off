@@ -2,6 +2,8 @@ import { getProducts } from "@/actions/product";
 import Header from "@/components/home/Header";
 import HeroSection from "@/components/home/HeroSection";
 import SpecialProducts from "@/components/home/SpecialProducts";
+import NewProducts from "@/components/products/NewProducts";
+import Link from "next/link";
 import { Suspense } from "react";
 // import TestComp from "@/components/testComp";
 // // import { Button } from "@/components/ui/button";
@@ -34,13 +36,21 @@ export default async function Home() {
           </Suspense>
         </section>
 
-        {/* MOST POPULAR PRODUCTS */}
-        <section className="py-12 px-4 sm:px-6 xl:px-8">
-          <h2 className="text-2xl font-bold mb-6">
-            Les produits les plus populaires
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Product cards go here */}
+        {/* MOST POPULAR NEW PRODUCTS */}
+        <section className="py-12 px-4 sm:px-6 xl:px-8 max-w-7xl mx-auto">
+          <h2 className="text-2xl font-bold mb-6">Nouveautés</h2>
+          <Suspense fallback={<div>Loading...</div>}>
+            <NewProducts data={products.slice(0, 10)} />
+          </Suspense>
+
+          {/* see more products */}
+          <div className="mt-10 mx-auto w-fit">
+            <Link
+              href="/catalogues"
+              className="text-sm font-semibold text-primary hover:underline"
+            >
+              Voir plus de produits
+            </Link>
           </div>
         </section>
       </div>

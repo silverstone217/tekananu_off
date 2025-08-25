@@ -1,5 +1,5 @@
 import { HomeLinks } from "@/utils/links";
-import { AlignJustify, Plus, Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import ThemeSwitch from "../ThemeSwitch";

@@ -20,7 +20,7 @@ const ProductCard = ({ product }: Props) => {
       {/* image */}
       {product.image && (
         <Link
-          href={`/produits/${product.id}`}
+          href={`/catalogues/${product.id}`}
           className=" w-full h-48 rounded-lg flex overflow-hidden relative"
         >
           <Image

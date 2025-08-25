@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { HomeLinks } from "@/utils/links";
 import Link from "next/link";
-import { LogOut, Plus, PlusCircle } from "lucide-react";
+import { LogOut, PlusCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import AvatarUser from "../AvatarUser";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
