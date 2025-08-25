@@ -28,6 +28,8 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  products Product[]
 }
 
 model Account {
@@ -74,4 +76,28 @@ model Test {
   count     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Product {
+  id          String   @id @default(cuid()) // Identifiant unique
+  title       String // Nom du produit
+  description String? // Description facultative
+  image       String? // URL de l’image du produit
+  images      String[] // Tableau d'URLs des images du produit
+  available   Boolean  @default(true) // Disponibilité
+  state       String // État du produit (par exemple, "neuf", "d'occasion")
+
+  price    Float // Prix du produit
+  currency String @default("USD") // Devise, par défaut USD
+
+  type     String // Type de produit (par exemple, "t-shirt", "hoodie")
+  category String // Catégorie du produit (par exemple, "vêtements", "accessoires")
+  brand    String? // Marque du produit (par exemple, "Nike", "Adidas")
+  color    String? // Couleur du produit (par exemple, "rouge", "bleu")
+
+  createdAt DateTime @default(now()) // Date de création
+  updatedAt DateTime @updatedAt // Date de mise à jour automatique
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
