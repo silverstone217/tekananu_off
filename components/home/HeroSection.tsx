@@ -37,7 +37,7 @@ const HeroSection = () => {
         {/* Overlay gradient */}
         <div
           className="absolute inset-0 bg-gradient-to-t 
-        from-black/80 to-transparent "
+        from-black/50 to-transparent "
         />
 
         {/* Content */}
@@ -66,7 +66,7 @@ const HeroSection = () => {
       {/* Navigation dots */}
       <nav
         className="absolute bottom-4 left-1/2 transform -translate-x-1/2 
-        flex space-x-3 bg-white/30 backdrop-blur rounded-full px-3 md:px-4 py-1.5 md:py-2"
+        flex space-x-1.5 bg-white/30 backdrop-blur rounded-full px-3  py-1.5 "
         aria-label="Navigation slides"
       >
         {DATA.map((_, index) => (
@@ -74,7 +74,7 @@ const HeroSection = () => {
             key={index}
             aria-label={`Go to slide ${index + 1}`}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 md:h-3 md:w-3 rounded-full border transition-colors duration-300 ${
+            className={`w-2 h-2  rounded-full border transition-colors duration-300 ${
               index === currentIndex
                 ? "bg-white border-white"
                 : "bg-gray-400 border-gray-400 hover:bg-white hover:border-white"
