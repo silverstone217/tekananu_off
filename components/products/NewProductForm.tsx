@@ -13,14 +13,23 @@ import {
   ProductCategories,
   ShoesType,
   State_Data,
+  StateValuesType,
 } from "@/utils/productData";
 import SelectOptions from "./SelectOptions";
 import SelectColors from "./SelectColors";
 import Image from "next/image";
 import { Loader, X } from "lucide-react";
 import { Button } from "../ui/button";
-import { set } from "zod";
 import { toast } from "sonner";
+import { put } from "@vercel/blob";
+import { randomUID } from "@/utils/functions";
+import {
+  uploadProduct,
+  uploadProductImagesUrls,
+  UploadProductType,
+} from "@/actions/product";
+import { ProductCategoryValues } from "@/utils/productData";
+import { useRouter } from "next/navigation";
 
 const NewProductForm = () => {
   const [title, setTitle] = useState("");
@@ -38,6 +47,7 @@ const NewProductForm = () => {
   const [color, setColor] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const TYPES_DATA = useMemo(
     () =>
@@ -67,13 +77,106 @@ const NewProductForm = () => {
     setColor("");
   };
 
+  // add images to vercel-blob
+  const uploadImages = async () => {
+    let imgUrl = "";
+    const imgUrls: string[] = [];
+
+    try {
+      // upload de l'image principale
+      if (!image) throw new Error("L'image principale est manquante");
+      const imgID = randomUID();
+
+      const response = await put(`images/${imgID}`, image, {
+        access: "public",
+      });
+      imgUrl = response.url;
+
+      // upload des images additionnelles si présentes
+      if (images.length > 0) {
+        // on utilise map pour créer un tableau de Promesses qui retournent l'url
+        const uploadPromises = images.map(async (img) => {
+          const imgID = randomUID();
+          const res = await put(`images/${imgID}`, img, {
+            access: "public",
+          });
+          return res.url;
+        });
+
+        // on attend la résolution de toutes les promesses et on stocke les URLs retournées
+        const urls = await Promise.all(uploadPromises);
+        imgUrls.push(...urls);
+      }
+
+      return {
+        imgUrl,
+        imgUrls,
+      };
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      throw new Error(
+        "Une erreur s'est produite lors du téléchargement des images."
+      );
+    }
+  };
+
   const handleSubmit = async () => {
     // Handle form submission logic here
     setLoading(true);
     try {
       if (!canProceed()) return;
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // form data for send info first.
+      const formData: UploadProductType = {
+        title,
+        description,
+        price,
+        state: state as StateValuesType,
+        type,
+        category: category as ProductCategoryValues,
+        currency: currency as "USD" | "CDF",
+        brand,
+        color,
+      };
+
+      // send form
+      const firstResult = await uploadProduct(formData);
+
+      if (firstResult.error) {
+        toast.error(
+          firstResult.message ||
+            "Une erreur est survenue lors de l'ajout du produit."
+        );
+        return;
+      }
+
+      if (!firstResult.data) {
+        toast.error("Une erreur est survenue lors de l'ajout du produit.");
+        return;
+      }
+
+      const productId = firstResult.data.id;
+
+      // second upload for images
+      const { imgUrl, imgUrls } = await uploadImages();
+
+      const secondResult = await uploadProductImagesUrls({
+        image: imgUrl,
+        images: imgUrls.length > 0 ? imgUrls : undefined,
+        productId,
+      });
+
+      if (secondResult.error) {
+        toast.error(
+          secondResult.message ||
+            "Une erreur est survenue lors de l'ajout des images."
+        );
+        return;
+      }
+
+      toast.success("Produit ajouté avec succès !");
+      handleReset();
+      router.refresh();
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("Une erreur s'est produite lors de l'envoi du formulaire.");

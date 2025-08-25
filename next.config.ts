@@ -41,6 +41,13 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      // Ajout du hostname Vercel Blob Store (remplacez "my-store-id" par votre valeur réelle)
+      {
+        protocol: "https",
+        hostname: "u5ctxtnjh8dri8gw.public.blob.vercel-storage.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

@@ -22,7 +22,7 @@ const HeroSection = () => {
     <section className="relative w-full overflow-hidden">
       {/* Background image */}
       <div
-        className="relative h-[60vh] bg-secondary flex items-center 
+        className="relative h-[50vh] bg-secondary flex items-center 
       justify-center"
       >
         <Image
@@ -45,17 +45,17 @@ const HeroSection = () => {
           className="absolute bottom-14 left-6 right-6 max-w-md 
         text-white flex flex-col gap-3"
         >
-          <h2 className="text-3xl md:text-4xl font-extrabold capitalize leading-tight drop-shadow-lg">
+          <h2 className="text-2xl md:text-3xl font-extrabold capitalize leading-tight drop-shadow-lg">
             {capitalize(currentItem.title)}
           </h2>
           <p
-            className="text-sm md:text-base text-gray-300 
+            className="text-xs md:text-sm text-gray-300 
           line-clamp-2 drop-shadow-sm"
           >
             {currentItem.description}
           </p>
           <Button
-            className="w-max px-6 py-2 text-sm md:text-base 
+            className="w-max px-6 py-2 text-xs md:text-sm 
           transition hover:bg-yellow-600"
           >
             Acheter {formatMoney(currentItem.price, currentItem.devise)}
