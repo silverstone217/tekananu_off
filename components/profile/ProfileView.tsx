@@ -3,6 +3,7 @@ import { User } from "@prisma/client";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import EditButton from "./EditButton";
 
 type Props = {
   isCurrentUser: boolean;
@@ -16,7 +17,7 @@ const ProfileView = ({ isCurrentUser, userProfile }: Props) => {
         .map((n) => n[0])
         .join("")
         .toUpperCase()
-    : "U";
+    : "UT";
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 flex w-full flex-wrap gap-y-8 relative">
@@ -29,9 +30,7 @@ const ProfileView = ({ isCurrentUser, userProfile }: Props) => {
       {/* absolute edit button */}
       {isCurrentUser && (
         <div className="absolute top-4 right-4">
-          <Button variant={"outline"} size={"sm"} className="text-xs">
-            Modifier
-          </Button>
+          <EditButton isCurrentUser={isCurrentUser} userProfile={userProfile} />
         </div>
       )}
 
