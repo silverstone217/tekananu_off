@@ -99,7 +99,10 @@ const SheetNavSmallScreen = () => {
         {/* profile, actions and logout */}
         <div className="flex flex-col p-4 gap-4">
           {user && (
-            <Link href={"/profil"} className="flex items-center gap-2 mb-1">
+            <Link
+              href={"/profil/" + user.id}
+              className="flex items-center gap-2 mb-1"
+            >
               <AvatarUser image={user.image} name={user.name} />
               <div className="flex flex-col text-sm">
                 <span className="capitalize font-bold line-clamp-1">

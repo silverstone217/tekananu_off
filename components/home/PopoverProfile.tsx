@@ -59,7 +59,7 @@ const PopoverProfile = () => {
         {/* Links */}
         <div className="flex flex-col space-y-2 text-sm">
           <Link
-            href="/profil"
+            href={"/profil/" + user.id}
             className="flex items-center gap-2 px-2 py-1.5 
             rounded-lg hover:bg-gray-100 transition dark:hover:bg-gray-700"
           >
