@@ -16,9 +16,12 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { isEmpty } from "@/utils/functions";
+import { isEmpty, randomUID } from "@/utils/functions";
 import Image from "next/image";
 import { X } from "lucide-react";
+import { updateUserName } from "@/actions/user";
+import { toast } from "sonner";
+import { put } from "@vercel/blob";
 
 type Props = {
   isCurrentUser: boolean;
@@ -61,7 +64,15 @@ const EditButton = ({ isCurrentUser, userProfile }: Props) => {
     setLoading(true);
     try {
       // API call : envoyer name + imageFile
-      // await modifyUserProfile({ name, imageFile });
+      const result = await updateUserName(name.trim().toLowerCase());
+
+      if (result.error) {
+        toast.error(result.message);
+        return;
+      }
+
+      toast.success(result.message);
+
       router.refresh();
     } catch (error) {
       console.error("Error modifying profile:", error);
@@ -70,10 +81,71 @@ const EditButton = ({ isCurrentUser, userProfile }: Props) => {
     }
   };
 
+  const deleteImageOnServer = async (url: string) => {
+    const res = await fetch("/api/blob/delete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || "Erreur suppression image");
+    }
+  };
+
+  // send to vercel-blob
+  const handleModifyImage = async () => {
+    setLoading(true);
+    try {
+      if (!imageFile || isEmpty(name)) return;
+
+      const imgID = randomUID();
+      const response = await put(`profile/${imgID}`, imageFile, {
+        access: "public",
+      });
+      const imgUrl = response.url;
+
+      if (!imgUrl) {
+        toast.error("Impossible d'envoyer l'image");
+        return;
+      }
+      // update user with new image url
+      const result = await updateUserName(name.trim().toLowerCase(), imgUrl);
+
+      if (result.error) {
+        toast.error(result.message);
+        return;
+      }
+
+      // delete image if exist
+      // Supprimer l'ancienne image via API serveur
+      if (userProfile.image) {
+        await deleteImageOnServer(userProfile.image);
+      }
+
+      setImageFile(null);
+      setImagePreview("");
+
+      toast.success(result.message);
+
+      router.refresh();
+    } catch (error) {
+      console.error("Error modifying image:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" size="sm" className="text-xs">
+        <Button
+          variant="outline"
+          size="sm"
+          className="text-xs"
+          disabled={loading || !isCurrentUser}
+        >
           Modifier
         </Button>
       </AlertDialogTrigger>
@@ -138,8 +210,15 @@ const EditButton = ({ isCurrentUser, userProfile }: Props) => {
             />
 
             <AlertDialogAction
-              disabled={loading || !imageFile}
+              disabled={
+                loading ||
+                !imageFile ||
+                isEmpty(name) ||
+                (name === userProfile.name &&
+                  imagePreview === userProfile.image)
+              }
               className="max-w-40"
+              onClick={handleModifyImage}
             >
               Valider
             </AlertDialogAction>
@@ -161,11 +240,7 @@ const EditButton = ({ isCurrentUser, userProfile }: Props) => {
               />
               <AlertDialogAction
                 onClick={handleModifyName}
-                disabled={
-                  loading ||
-                  isEmpty(name) ||
-                  (name === userProfile.name && imageFile === null)
-                }
+                disabled={loading || isEmpty(name) || name === userProfile.name}
               >
                 Valider
               </AlertDialogAction>

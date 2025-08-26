@@ -8,14 +8,20 @@ type AvatarUserProps = {
 };
 
 const AvatarUser = ({ name, image }: AvatarUserProps) => {
-  const initials = name ? name.charAt(0).toUpperCase() : "U";
+  const initials = name
+    ? name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+    : "UT";
 
   return (
     <Avatar>
       {image ? (
-        <AvatarImage src={image} alt="User Avatar" />
+        <AvatarImage src={image} alt="User Avatar" className="object-cover" />
       ) : (
-        <AvatarFallback className="font-bold shadow-2xl">
+        <AvatarFallback className="font-bold shadow-xl">
           {initials}
         </AvatarFallback>
       )}

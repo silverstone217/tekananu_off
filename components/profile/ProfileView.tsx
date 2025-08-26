@@ -2,7 +2,6 @@
 import { User } from "@prisma/client";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
 import EditButton from "./EditButton";
 
 type Props = {
@@ -36,9 +35,9 @@ const ProfileView = ({ isCurrentUser, userProfile }: Props) => {
 
       {/* image profile */}
       <div className="md:w-40 md:h-40 w-32 h-32 flex items-center justify-center">
-        <Avatar className="w-full h-full">
+        <Avatar className="w-full h-full object-cover">
           {userProfile.image ? (
-            <AvatarImage src={userProfile.image} />
+            <AvatarImage src={userProfile.image} className="object-cover" />
           ) : (
             <AvatarFallback className="font-bold text-5xl">
               {shortName}
