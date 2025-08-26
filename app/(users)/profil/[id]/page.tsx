@@ -1,6 +1,7 @@
 import { getUser } from "@/actions/auth";
 import { getUserById } from "@/actions/user";
 import GoBackLink from "@/components/GoBackLink";
+import MainContent from "@/components/profile/MainContent";
 import ProfileView from "@/components/profile/ProfileView";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -39,6 +40,9 @@ async function page({ params }: Props) {
       </div>
       {/* ProfileView */}
       <ProfileView userProfile={userProfile} isCurrentUser={isCurrentUser} />
+
+      {/* main content */}
+      <MainContent isCurrentUser={isCurrentUser} userProfile={userProfile} />
     </div>
   );
 }
