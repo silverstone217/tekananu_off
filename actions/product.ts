@@ -105,3 +105,26 @@ export const getProducts = async () => {
     return [];
   }
 };
+
+// get products by userId
+export const getProductsByUserId = async () => {
+  const user = await getUser();
+  if (!user) {
+    return [];
+  }
+
+  try {
+    const products = await prisma.product.findMany({
+      where: {
+        userId: user.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return products ?? [];
+  } catch (error) {
+    console.log("Error fetching products:", error);
+    return [];
+  }
+};

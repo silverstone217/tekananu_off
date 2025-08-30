@@ -1,48 +1,57 @@
 "use client";
-import { User } from "@prisma/client";
+import { Product, User } from "@prisma/client";
 import React, { Suspense } from "react";
+import Published from "./contents/Published";
 
 type Props = {
   isCurrentUser: boolean;
   userProfile: User;
+  myProducts: Product[];
 };
 
-const TABS = [
+type TabType = {
+  label: string;
+  value: string;
+  content: (props: { myProducts: Product[] }) => React.ReactNode;
+  authorized?: boolean;
+};
+
+const TABS: TabType[] = [
   {
     label: "Publiés",
     value: "products",
-    content: <div>Produit 1</div>,
+    content: ({ myProducts }) => <Published myProducts={myProducts} />,
     authorized: true,
   },
   {
     label: "Achetés",
     value: "purchased",
-    content: <div>Achat 1</div>,
+    content: () => <div>Achat 1</div>,
   },
   {
     label: "Vendus",
     value: "bought",
-    content: <div>Vente 1</div>,
+    content: () => <div>Vente 1</div>,
   },
   {
     label: "Aimés",
     value: "liked",
-    content: <div>Aimé 1</div>,
+    content: () => <div>Aimé 1</div>,
     authorized: true,
   },
   {
     label: "Notes",
     value: "feedback",
-    content: <div>Feedback 1</div>,
+    content: () => <div>Feedback 1</div>,
   },
   {
     label: "A propos",
     value: "about",
-    content: <div>Activité 1</div>,
+    content: () => <div>Activité 1</div>,
   },
 ];
 
-const MainContent = ({ isCurrentUser, userProfile }: Props) => {
+const MainContent = ({ isCurrentUser, userProfile, myProducts }: Props) => {
   const [tab, setTab] = React.useState(TABS[0]);
 
   return (
@@ -68,7 +77,7 @@ const MainContent = ({ isCurrentUser, userProfile }: Props) => {
       {/* content */}
       <div className="mt-6 px-4">
         <Suspense fallback={<div className="p-20">chargement...</div>}>
-          {tab.content}
+          {tab.content({ myProducts })}
         </Suspense>
       </div>
     </main>
@@ -76,5 +85,3 @@ const MainContent = ({ isCurrentUser, userProfile }: Props) => {
 };
 
 export default MainContent;
-
-const NavigationProfileMenu = () => {};

@@ -1,4 +1,5 @@
 import { getUser } from "@/actions/auth";
+import { getProductsByUserId } from "@/actions/product";
 import { getUserById } from "@/actions/user";
 import GoBackLink from "@/components/GoBackLink";
 import MainContent from "@/components/profile/MainContent";
@@ -19,6 +20,7 @@ async function page({ params }: Props) {
   if (!user) return null;
 
   const userProfile = await getUserById(id);
+  const myProducts = await getProductsByUserId();
 
   if (!userProfile) {
     return (
@@ -42,7 +44,11 @@ async function page({ params }: Props) {
       <ProfileView userProfile={userProfile} isCurrentUser={isCurrentUser} />
 
       {/* main content */}
-      <MainContent isCurrentUser={isCurrentUser} userProfile={userProfile} />
+      <MainContent
+        isCurrentUser={isCurrentUser}
+        userProfile={userProfile}
+        myProducts={myProducts}
+      />
     </div>
   );
 }
